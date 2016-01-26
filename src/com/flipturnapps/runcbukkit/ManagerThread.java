@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import com.flipturnapps.kevinLibrary.command.BasicCommandParser;
 import com.flipturnapps.kevinLibrary.command.Command;
-import com.flipturnapps.kevinLibrary.command.CommandExecutor;
-import com.flipturnapps.kevinLibrary.command.CommandOutput;
 import com.flipturnapps.kevinLibrary.command.CommandParseException;
-import com.flipturnapps.kevinLibrary.command.CommandSpeaker;
 import com.flipturnapps.kevinLibrary.command.IncorrectDataException;
 import com.flipturnapps.kevinLibrary.command.NonExistentCommandException;
 import com.flipturnapps.runcbukkit.command.Speaker;
@@ -16,6 +13,7 @@ public class ManagerThread
 {
 	private BasicCommandParser parser;
 	private ArrayList<Speaker> inputs;
+	private BukkitInstance cbukkit = null;
 	public ManagerThread()
 	{
 		ArrayList<Command> managerCommands = new ArrayList<Command>();
@@ -26,7 +24,7 @@ public class ManagerThread
 	{
 		try 
 		{
-			parser.runCommand(command, speaker.getCommandSpeaker(), this);
+			parser.runCommand(command, speaker, this);
 		} catch (IncorrectDataException e) 
 		{			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,6 +45,14 @@ public class ManagerThread
 	{
 		inputs.remove(input);
 		input.unregister();
+	}
+	public BukkitInstance getCbukkit()
+	{
+		return cbukkit;
+	}
+	public void setCbukkit(BukkitInstance cbukkit)
+	{
+		this.cbukkit = cbukkit;
 	}
 	
 	

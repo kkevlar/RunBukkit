@@ -1,15 +1,9 @@
 package com.flipturnapps.runcbukkit.command;
 
-import com.flipturnapps.kevinLibrary.command.CommandOutput;
-import com.flipturnapps.kevinLibrary.command.OutputSimpleCommand;
+import com.flipturnapps.kevinLibrary.command.SimpleCommand;
 
-public abstract class CommandParent extends OutputSimpleCommand
+public abstract class CommandParent extends SimpleCommand
 {
-	public CommandParent(CommandOutput output) 
-	{
-		super(output);
-	}
-
 	public String getHelpText()
 	{
 		return null;
@@ -26,5 +20,4 @@ public abstract class CommandParent extends OutputSimpleCommand
 	{
 		return true;
 	}
-
 }
