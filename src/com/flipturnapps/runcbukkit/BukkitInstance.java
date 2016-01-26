@@ -10,12 +10,12 @@ public class BukkitInstance
 	private PrintWriter writer;
 	private BufferedReader reader;
 
-	public BukkitInstance()
+	public BukkitInstance(File bukkitDir)
 	{
 		Runtime runtime = Runtime.getRuntime();		
 		Process process;
 		try {
-			process = runtime.exec(new String ("java -jar craftbukkit.jar"), null, new File("C:/Users/Kevin/Documents/cbukkit2/"));
+			process = runtime.exec(new String ("java -jar craftbukkit.jar"), null, bukkitDir);
 		} catch (IOException e) 
 		{
 			// TODO Auto-generated catch block
@@ -27,19 +27,23 @@ public class BukkitInstance
 		
 	}
 
-	public PrintWriter getWriter() {
+	public PrintWriter getWriter() 
+	{
 		return writer;
 	}
 
-	public void setWriter(PrintWriter writer) {
+	private void setWriter(PrintWriter writer) 
+	{
 		this.writer = writer;
 	}
 
-	public BufferedReader getReader() {
+	public BufferedReader getReader() 
+	{
 		return reader;
 	}
 
-	public void setReader(BufferedReader reader) {
+	private void setReader(BufferedReader reader) 
+	{
 		this.reader = reader;
 	}
 }
