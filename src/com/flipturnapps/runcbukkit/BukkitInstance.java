@@ -1,14 +1,15 @@
 package com.flipturnapps.runcbukkit;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.flipturnapps.kevinLibrary.helper.FlushWriter;
+
 public class BukkitInstance
 {
-	private PrintWriter writer;
-	private BufferedReader reader;
+	private FlushWriter writer;
+	private BukkitReader reader;
 
 	public BukkitInstance(File bukkitDir)
 	{
@@ -22,8 +23,8 @@ public class BukkitInstance
 			e.printStackTrace();
 			return;
 		}
-		setWriter(new PrintWriter(process.getOutputStream()));
-		setReader(new BufferedReader(new InputStreamReader(process.getInputStream())));
+		setWriter(new FlushWriter(process.getOutputStream()));
+		setReader(new BukkitReader(new InputStreamReader(process.getInputStream()),this));
 		
 	}
 
@@ -32,17 +33,17 @@ public class BukkitInstance
 		return writer;
 	}
 
-	private void setWriter(PrintWriter writer) 
+	private void setWriter(FlushWriter writer) 
 	{
 		this.writer = writer;
 	}
 
-	public BufferedReader getReader() 
+	public BukkitReader getReader() 
 	{
 		return reader;
 	}
 
-	private void setReader(BufferedReader reader) 
+	private void setReader(BukkitReader reader) 
 	{
 		this.reader = reader;
 	}
