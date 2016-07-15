@@ -38,5 +38,15 @@ public class Server extends KServer<Client>
 	public void setBukkitInstance(BukkitInstance bukkitInstance) {
 		this.bukkitInstance = bukkitInstance;
 	}
+	
+	public void restartBukkit()
+	{
+		
+	}
+	
+	public void stopBukkit(boolean restarting)
+	{
+		
+	}
 
 }
