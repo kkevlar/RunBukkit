@@ -2,6 +2,8 @@ package com.flipturnapps.runcbukkit;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.SocketImpl;
 import java.util.Scanner;
 
 import com.flipturnapps.kevinLibrary.helper.FileHelper;
@@ -9,8 +11,10 @@ import com.flipturnapps.kevinLibrary.helper.FlushWriter;
 
 public class Main implements Runnable
 {
+	private static int PORT = 25570;
 	private static FlushWriter writer;
 	private static File cBukkitDir;
+	private Server server;
 	
 	public static void println(String string) 
 	{
@@ -19,8 +23,8 @@ public class Main implements Runnable
 		{
 			String name = "consolelog.log";
 			File logFile;
-			if(cBukkitDir != null) 
-				logFile = new File(FileHelper.fileInDir(cBukkitDir, name));
+			if(getcBukkitDir() != null) 
+				logFile = new File(FileHelper.fileInDir(getcBukkitDir(), name));
 			else
 				logFile = new File(name);
 			try {
@@ -36,29 +40,39 @@ public class Main implements Runnable
 	{
 		BukkitFinder finder = new BukkitFinder();
 		finder.walk();
-		if(cBukkitDir == null)
+		if(getcBukkitDir() == null)
 		{
 			System.out.println("dir = null");
 			return;
 		}
 		new Thread(new Main()).start();
 	}
-
-	public static void setDir(File dir) 
-	{
-		cBukkitDir = dir;
-		
-	}
 	@Override
 	public void run() 
 	{
-		BukkitInstance instance = new BukkitInstance(cBukkitDir);
+		try {
+			server = new Server(PORT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BukkitInstance instance = new BukkitInstance(getcBukkitDir());
+		server.setBukkitInstance(instance);
+		
+		/*
 		Scanner scan = new Scanner(System.in);
 		while(instance.getReader().isShouldRead())
 		{
 			instance.getWriter().println(scan.nextLine());	
 		}
 		scan.close();
+		*/
 		
+	}
+	public static File getcBukkitDir() {
+		return cBukkitDir;
+	}
+	public static void setcBukkitDir(File cBukkitDir) {
+		Main.cBukkitDir = cBukkitDir;
 	}
 }

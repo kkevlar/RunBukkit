@@ -61,7 +61,7 @@ public class BukkitReader extends BufferedReader implements Runnable
 		}
 		if(line.contains("/restart_zzz")&& !(line.contains("[Server]")))
 		{
-			new Thread(new BukkitRestarter(bukkitInstance)).start();
+			//new Thread(new BukkitRestarter(bukkitInstance)).start();
 		}
 		if(line.contains("/tattling on")&& !(line.contains("[Server]")))
 		{

@@ -36,7 +36,7 @@ public class BukkitFinder
     	if(dir != null)
     	{
     		//System.out.println("foundit: " + dir.getAbsolutePath());
-    		Main.setDir(dir);
+    		Main.setcBukkitDir(dir);
     	}
     }
 

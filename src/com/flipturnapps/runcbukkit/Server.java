@@ -7,10 +7,10 @@ import com.flipturnapps.kevinLibrary.net.KServer;
 
 public class Server extends KServer<Client>
 {
-
-	public Server(int port) throws IOException {
+	private BukkitInstance bukkitInstance;
+	public Server(int port) throws IOException 
+	{
 		super(port);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -29,6 +29,14 @@ public class Server extends KServer<Client>
 	protected void newClient(Client data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public BukkitInstance getBukkitInstance() {
+		return bukkitInstance;
+	}
+
+	public void setBukkitInstance(BukkitInstance bukkitInstance) {
+		this.bukkitInstance = bukkitInstance;
 	}
 
 }
