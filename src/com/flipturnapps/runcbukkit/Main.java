@@ -51,13 +51,12 @@ public class Main implements Runnable
 	public void run() 
 	{
 		try {
-			server = new Server(PORT);
+			server = new Server(PORT, this.getcBukkitDir());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		BukkitInstance instance = new BukkitInstance(getcBukkitDir());
-		server.setBukkitInstance(instance);
+		
 		
 		/*
 		Scanner scan = new Scanner(System.in);
