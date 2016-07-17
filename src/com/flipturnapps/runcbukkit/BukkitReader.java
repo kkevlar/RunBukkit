@@ -45,6 +45,7 @@ public class BukkitReader extends BufferedReader implements Runnable
 				continue;
 			doLineMagic(line);
 			Main.println(" --- " + line);
+			bukkitInstance.getServer().sendAll(line);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

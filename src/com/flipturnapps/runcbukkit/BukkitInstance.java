@@ -10,6 +10,7 @@ public class BukkitInstance
 {
 	private FlushWriter writer;
 	private BukkitReader reader;
+	private Server server;
 
 	public BukkitInstance(File bukkitDir)
 	{
@@ -46,5 +47,13 @@ public class BukkitInstance
 	private void setReader(BukkitReader reader) 
 	{
 		this.reader = reader;
+	}
+
+	public Server getServer() {
+		return server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
 	}
 }
