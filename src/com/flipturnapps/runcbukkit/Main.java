@@ -14,6 +14,7 @@ public class Main implements Runnable
 	private static int PORT = 25570;
 	private static FlushWriter writer;
 	private static File cBukkitDir;
+	private static int port;
 	private Server server;
 	
 	public static void println(String string) 
@@ -38,6 +39,8 @@ public class Main implements Runnable
 	}
 	public static void main(String[] args)
 	{
+		port = Integer.parseInt(args[0]);
+		
 		BukkitFinder finder = new BukkitFinder();
 		finder.walk();
 		if(getcBukkitDir() == null)
@@ -51,7 +54,7 @@ public class Main implements Runnable
 	public void run() 
 	{
 		try {
-			server = new Server(PORT, this.getcBukkitDir());
+			server = new Server(port, this.getcBukkitDir());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
