@@ -14,11 +14,11 @@ public class Server extends KServer<Client>
 	{
 		super(port);
 		this.setcBukkitDir(dir);
-		newBukkitInstance();
+		startBukkit();
 	}
 
 
-	private void newBukkitInstance() 
+	private void startBukkit() 
 	{
 		BukkitInstance instance = new BukkitInstance(getcBukkitDir());
 		this.setBukkitInstance(instance);
@@ -28,15 +28,39 @@ public class Server extends KServer<Client>
 	@Override
 	protected void newMessage(String message, Client client) 
 	{
+		if(message.toLowerCase().startsWith("sdown"))
+		{
+			long time = Long.parseLong(message.replace(' ', '~').split(" ")[1]);
+			boolean restart;
+			if(message.contains("r"))
+				restart = true;
+			else
+				restart = false;
+			stopBukkit(time,restart);
+		}
+		
+		
+		
 		if(!this.getBukkitInstance().getReader().isReadNull())
 			this.getBukkitInstance().getWriter().println(message);
 		else if (message.equalsIgnoreCase("start"))
 		{
-			this.newBukkitInstance();
+			this.startBukkit();
 		}
 			
 		
 	}
+
+	private void stopBukkit(long time, boolean restart) 
+	{
+		String actionName;
+		if (restart)
+			actionName = "restart";
+		else
+			actionName = "stop";
+		//more code here		
+	}
+
 
 	@Override
 	protected Client getNewClientData(Socket socket, KServer<Client> kServer) 

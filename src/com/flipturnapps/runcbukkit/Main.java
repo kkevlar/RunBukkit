@@ -11,11 +11,10 @@ import com.flipturnapps.kevinLibrary.helper.FlushWriter;
 
 public class Main implements Runnable
 {
-	private static int PORT = 25570;
+	
 	private static FlushWriter writer;
 	private static File cBukkitDir;
 	private static int port;
-	private Server server;
 	
 	public static void println(String string) 
 	{
@@ -54,7 +53,7 @@ public class Main implements Runnable
 	public void run() 
 	{
 		try {
-			server = new Server(port, this.getcBukkitDir());
+			 Server server = new Server(port, this.getcBukkitDir());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
