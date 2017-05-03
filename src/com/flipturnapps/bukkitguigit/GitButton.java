@@ -17,6 +17,11 @@ public class GitButton extends JButton implements ActionListener
 	public static final String TXT_FIND_REPO = "Find Repo";
 	private int stageId;
 	private Executor executor;
+	static final String RUN_THE_SERVER = "Run The Server";
+	static final String STAGE_ALL_CHANGES = "Stage ALL Changes";
+	static final String COMMIT_CHANGES = "Commit Changes";
+	static final String PUSH = "Push";
+	public static final String STOP = "stop";
 	private static ArrayList<GitButton> list;
 	private static int staticId;
 

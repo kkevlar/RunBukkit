@@ -12,8 +12,10 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
-import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JLabel;
+import javax.swing.GitButton;
 
 
 public class GitFrame extends JFrame {
@@ -36,10 +38,16 @@ public class GitFrame extends JFrame {
 	private JPanel panel;
 	private StepPanel panel_step7;
 	private StepPanel panel_step8;
-	private JButton btnRunTheServer;
-	private JButton btnStageAllChanges;
-	private JButton btnCommitChanges;
+	private GitButton btnRunTheServer;
+	private GitButton btnStageAllChanges;
+	private GitButton btnCommitChanges;
 	private JTextField textField;
+	private JTextField textField_1;
+	private JPasswordField passwordField;
+	private GitButton btnPush;
+	private JLabel lblUn;
+	private JLabel lblPass;
+	private GitButton btnStop;
 
 	/**
 	 * Launch the application.
@@ -64,7 +72,7 @@ public class GitFrame extends JFrame {
 		Executor exe = new Executor(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 600);
+		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -106,24 +114,44 @@ public class GitFrame extends JFrame {
 		panel_step5 = new StepPanel(5,"Run");
 		panel_top_box.add(panel_step5);
 		
-		btnRunTheServer = new JButton("Run The Server");
+		btnRunTheServer = new GitButton(GitButton.RUN_THE_SERVER,6,exe);
 		panel_step5.add(btnRunTheServer);
+		
+		btnStop = new GitButton(GitButton.STOP, 7,exe);
+		panel_step5.add(btnStop);
 		panel_step6 = new StepPanel(6,"Stage Changes");
 		panel_top_box.add(panel_step6);
 		
-		btnStageAllChanges = new JButton("Stage ALL Changes");
+		btnStageAllChanges = new GitButton(GitButton.STAGE_ALL_CHANGES,8,exe);
 		panel_step6.add(btnStageAllChanges);
-		panel_step7 = new StepPanel(7,"Commit Changes");
+		panel_step7 = new StepPanel(7,GitButton.COMMIT_CHANGES);
 		panel_top_box.add(panel_step7);
 		
 		textField = new JTextField();
 		panel_step7.add(textField);
 		textField.setColumns(10);
 		
-		btnCommitChanges = new JButton("Commit Changes");
+		btnCommitChanges = new GitButton(GitButton.COMMIT_CHANGES,9,exe);
 		panel_step7.add(btnCommitChanges);
-		panel_step8 = new StepPanel(8,"Push");
+		panel_step8 = new StepPanel(8,GitButton.PUSH);
 		panel_top_box.add(panel_step8);
+		
+		lblUn = new JLabel("UN:");
+		panel_step8.add(lblUn);
+		
+		textField_1 = new JTextField();
+		panel_step8.add(textField_1);
+		textField_1.setColumns(10);
+		
+		lblPass = new JLabel("Pass:");
+		panel_step8.add(lblPass);
+		
+		passwordField = new JPasswordField();
+		passwordField.setColumns(10);
+		panel_step8.add(passwordField);
+		
+		btnPush = new GitButton(GitButton.PUSH,10,exe);
+		panel_step8.add(btnPush);
 		
 		JPanel panel_bot = new JPanel();
 		contentPane.add(panel_bot);
