@@ -125,4 +125,9 @@ public class Executor
 		}
 	}
 
+	public FlushWriter getExecutorInput() 
+	{
+		return execInput;
+	}
+
 }

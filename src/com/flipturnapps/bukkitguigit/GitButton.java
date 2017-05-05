@@ -19,7 +19,8 @@ public static final String TXT_GET_CHOICES = "Branches";
 	static final String TXT_STAGE_ALL_CHANGES = "Stage ALL Changes";
 	static final String TXT_COMMIT_CHANGES = "Commit Changes";
 	static final String TXT_PUSH = "Push";
-	public static final String TXT_STOP = "stop";
+	public static final String TXT_STOP = "Stop";
+	public static final String TXT_RESET = "Reset";
 	private static ArrayList<GitButton> list;
 	private static int staticId;
 
@@ -46,7 +47,10 @@ public static final String TXT_GET_CHOICES = "Branches";
 				staticId = stageId+1;
 		
 		}
-		
+		if(this.getText() == TXT_RESET)
+		{
+			executor.execute("git reset --hard HEAD");
+		}
 		if(this.getText() == TXT_PULL)
 		{
 			executor.execute("git pull");
@@ -60,6 +64,27 @@ public static final String TXT_GET_CHOICES = "Branches";
 		if(this.getText() == TXT_CHECKOUT)
 		{
 			executor.execute("git checkout " + this.executor.getGitFrame().getComboChoice(), true);
+			staticId = stageId+1;
+		}
+		if(this.getText() == TXT_RUN_THE_SERVER)
+		{
+			executor.execute("java -jar craftbukkit.jar");
+			staticId = stageId+1;
+		}
+		if(this.getText() == TXT_STOP)
+		{
+			executor.getExecutorInput().println("stop");
+			staticId = stageId+1;
+		}
+		if(this.getText() == this.TXT_STAGE_ALL_CHANGES)
+		{
+			executor.execute("git add -A");
+			executor.getGitFrame().guessCommitMessage();
+			staticId = stageId+1;
+		}
+		if(this.getText() == this.TXT_COMMIT_CHANGES)
+		{
+			executor.execute("git commit -m \"" +"d" +"\"");
 			staticId = stageId+1;
 		}
 		tellOthersToDecide();

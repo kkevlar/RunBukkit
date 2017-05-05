@@ -4,8 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +21,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
-import javax.swing.JCheckBox;
 
 
 public class GitFrame extends JFrame {
@@ -41,7 +45,7 @@ public class GitFrame extends JFrame {
 	private GitButton btnRunTheServer;
 	private GitButton btnStageAllChanges;
 	private GitButton btnCommitChanges;
-	private JTextField textField;
+	private JTextField textField_commitmessage;
 	private JTextField textField_username;
 	private JPasswordField passwordField;
 	private GitButton btnPush;
@@ -50,6 +54,7 @@ public class GitFrame extends JFrame {
 	private GitButton btnStop;
 	private JCheckBox chckbxSavepass;
 	private GitPropertyManager properties;
+	private JButton btnReset;
 
 	/**
 	 * Launch the application.
@@ -71,7 +76,7 @@ public class GitFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public GitFrame() {
-		
+		guessCommitMessage();
 		properties = new GitPropertyManager();
 		try {
 			properties.read();
@@ -100,6 +105,9 @@ public class GitFrame extends JFrame {
 		
 		panel_step2 = new StepPanel(2,"Pull");
 		panel_top_box.add(panel_step2);
+		
+		btnReset = new GitButton(GitButton.TXT_RESET,1, exe);
+		panel_step2.add(btnReset);
 		
 		btnPullRemote = new GitButton(GitButton.TXT_PULL,1, exe);
 		panel_step2.add(btnPullRemote);
@@ -135,9 +143,9 @@ public class GitFrame extends JFrame {
 		panel_step7 = new StepPanel(7,GitButton.TXT_COMMIT_CHANGES);
 		panel_top_box.add(panel_step7);
 		
-		textField = new JTextField();
-		panel_step7.add(textField);
-		textField.setColumns(10);
+		textField_commitmessage = new JTextField();
+		panel_step7.add(textField_commitmessage);
+		textField_commitmessage.setColumns(10);
 		
 		btnCommitChanges = new GitButton(GitButton.TXT_COMMIT_CHANGES,8,exe);
 		panel_step7.add(btnCommitChanges);
@@ -203,6 +211,27 @@ public class GitFrame extends JFrame {
 
 	public PropertyManager getProperties() {
 		return properties;
+	}
+
+	public void guessCommitMessage() 
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 0);
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd--hhmm");
+		System.out.println(cal.getTime());
+		// Output "Wed Sep 26 14:23:28 EST 2012"
+
+		String formatted = format1.format(cal.getTime());
+		System.out.println(formatted);
+		// Output "2012-09-26"
+
+		try {
+			System.out.println(format1.parse(formatted));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Output "Wed Sep 26 00:00:00 EST 2012"
 	}
 
 }
