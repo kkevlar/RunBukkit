@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import com.flipturnapps.kevinLibrary.helper.FileHelper;
 import com.flipturnapps.kevinLibrary.helper.FlushWriter;
+import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.helper.TextFileHelper;
 
 public class Executor 
@@ -16,36 +17,32 @@ public class Executor
 	private SimpleReader execOutput;
 	private FlushWriter execInput;
 	private GitFrame gitFrame;
+	private PropertyManager properties;
 
 	public Executor(GitFrame gitFrame) {
 		this.gitFrame = gitFrame;
+		properties = new GitPropertyManager();
+		try {
+			properties.read();
+		} catch (IOException e) {
+			
+		}
 	}
 
 	public String getLastBukkitLocation() 
 	{
-		File datadir = new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
-		try {
-			return TextFileHelper.getFirstTextLine(new File(FileHelper.fileInDir(datadir, "path.zzz")));
-		} catch (IOException e) {
-			
-		}
-		return null;
+		return properties.getProperty(GitPropertyManager.PROPKEY_CBUKKIT_PATH);
 	}
 
 	public void setDir(File file)
 	{
 		this.workingDir = file;
-		File datadir = new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
-		datadir.mkdirs();
-			try {
-				File writeFile = new File(FileHelper.fileInDir(datadir, "path.zzz"));
-				writeFile.createNewFile();
-				TextFileHelper.writeTextToFile(writeFile,workingDir.getAbsolutePath());
-			} catch (FileNotFoundException e) {
-				
-			} catch (IOException e) {
-				
-			}
+		properties.setProperty(GitPropertyManager.PROPKEY_CBUKKIT_PATH, file.getAbsolutePath());
+		try {
+			properties.write();
+		} catch (IOException e) {
+			
+		}
 		this.execute("git status");
 	}
 	
