@@ -4,9 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -76,7 +75,7 @@ public class GitFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public GitFrame() {
-		guessCommitMessage();
+
 		properties = new GitPropertyManager();
 		try {
 			properties.read();
@@ -145,7 +144,7 @@ public class GitFrame extends JFrame {
 		
 		textField_commitmessage = new JTextField();
 		panel_step7.add(textField_commitmessage);
-		textField_commitmessage.setColumns(10);
+		textField_commitmessage.setColumns(20);
 		
 		btnCommitChanges = new GitButton(GitButton.TXT_COMMIT_CHANGES,8,exe);
 		panel_step7.add(btnCommitChanges);
@@ -215,23 +214,15 @@ public class GitFrame extends JFrame {
 
 	public void guessCommitMessage() 
 	{
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, 0);
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd--hhmm");
-		System.out.println(cal.getTime());
-		// Output "Wed Sep 26 14:23:28 EST 2012"
 
-		String formatted = format1.format(cal.getTime());
-		System.out.println(formatted);
-		// Output "2012-09-26"
+SimpleDateFormat sdfDate = new SimpleDateFormat("yy-MM-dd-HHmm");//dd/MM/yyyy
+Date now = new Date();
+String strDate = sdfDate.format(now);
+this.textField_commitmessage.setText(strDate);
+	}
 
-		try {
-			System.out.println(format1.parse(formatted));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// Output "Wed Sep 26 00:00:00 EST 2012"
+	public String getCommitMessageText() {
+		return textField_commitmessage.getText();
 	}
 
 }

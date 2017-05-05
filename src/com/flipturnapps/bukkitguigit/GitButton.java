@@ -84,9 +84,24 @@ public static final String TXT_GET_CHOICES = "Branches";
 		}
 		if(this.getText() == this.TXT_COMMIT_CHANGES)
 		{
-			executor.execute("git commit -m \"" +"d" +"\"");
+			executor.execute("git commit -m \"" + this.executor.getGitFrame().getCommitMessageText() +"\"");
 			staticId = stageId+1;
 		}
+		if(this.getText() == this.TXT_PUSH)
+		{
+			String username = this.executor.getUsernameText();
+			String password = this.executor.getPasswordText();
+			boolean savePass = this.executor.getShouldSavePassword();
+			
+			this.executor.getProperties().setProperty("username",username);
+			this.executor.getProperties().setProperty("save-pass?",savePass+"");
+			if(savePass)
+				this.executor.getProperties().setProperty("password",password);
+			
+			executor.execute("git push https://"+username+":"+password+"@"+this.executor.getGitFrame().get);
+			staticId = stageId+1;
+		}
+		
 		tellOthersToDecide();
 	}
 

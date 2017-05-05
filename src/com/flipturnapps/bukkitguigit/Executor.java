@@ -130,4 +130,23 @@ public class Executor
 		return execInput;
 	}
 
+	public String getUsernameText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPasswordText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean getShouldSavePassword() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public PropertyManager getProperties() {
+		return properties;
+	}
+
 }
