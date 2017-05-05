@@ -21,12 +21,8 @@ public class Executor
 
 	public Executor(GitFrame gitFrame) {
 		this.gitFrame = gitFrame;
-		properties = new GitPropertyManager();
-		try {
-			properties.read();
-		} catch (IOException e) {
-			
-		}
+		properties = gitFrame.getProperties();
+		workingDir = new File(System.getProperty("user.home"));
 	}
 
 	public String getLastBukkitLocation() 
@@ -101,6 +97,32 @@ public class Executor
 		
 		}
 		
+	}
+
+	public boolean findServerDir(GitButton gitButton) {
+		String lastLocation = getLastBukkitLocation();
+				
+		File file = new BukkitFinder().informedWalk(lastLocation);
+		if (file != null)
+		{
+			setDir(file);
+			return true;
+		}
+		
+		else
+		{
+			file = new BukkitFinder().walk();
+			if (file != null)
+			{
+				setDir(file);
+				return true;
+			}
+			
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 }

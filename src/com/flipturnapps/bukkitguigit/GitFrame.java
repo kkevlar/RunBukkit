@@ -3,6 +3,7 @@ package com.flipturnapps.bukkitguigit;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -13,7 +14,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
+import javax.swing.JCheckBox;
 
 
 public class GitFrame extends JFrame {
@@ -26,7 +29,6 @@ public class GitFrame extends JFrame {
 	private StepPanel panel_step5;
 	private StepPanel panel_step6;
 	private GitButton btnFindRepo;
-	private GitButton btnCloneNew;
 	private GitButton btnPullRemote;
 	private JComboBox comboBox;
 	private GitButton btnGetChoices;
@@ -40,12 +42,14 @@ public class GitFrame extends JFrame {
 	private GitButton btnStageAllChanges;
 	private GitButton btnCommitChanges;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textField_username;
 	private JPasswordField passwordField;
 	private GitButton btnPush;
 	private JLabel lblUn;
 	private JLabel lblPass;
 	private GitButton btnStop;
+	private JCheckBox chckbxSavepass;
+	private GitPropertyManager properties;
 
 	/**
 	 * Launch the application.
@@ -67,6 +71,14 @@ public class GitFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public GitFrame() {
+		
+		properties = new GitPropertyManager();
+		try {
+			properties.read();
+		} catch (IOException e) {
+			
+		}
+		
 		Executor exe = new Executor(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,69 +98,70 @@ public class GitFrame extends JFrame {
 		btnFindRepo = new GitButton(GitButton.TXT_FIND_REPO,0, exe);
 		panel_step1.add(btnFindRepo);
 		
-		btnCloneNew = new GitButton(GitButton.TXT_CLONE_NEW,1, exe);
-		panel_step1.add(btnCloneNew);
 		panel_step2 = new StepPanel(2,"Pull");
 		panel_top_box.add(panel_step2);
 		
-		btnPullRemote = new GitButton(GitButton.TXT_PULL,2, exe);
+		btnPullRemote = new GitButton(GitButton.TXT_PULL,1, exe);
 		panel_step2.add(btnPullRemote);
 		panel_step3 = new StepPanel(3,"Choose Branch");
 		panel_top_box.add(panel_step3);
 		
-		btnGetChoices = new GitButton(GitButton.TXT_GET_CHOICES,3, exe);
+		btnGetChoices = new GitButton(GitButton.TXT_GET_CHOICES,2, exe);
 		panel_step3.add(btnGetChoices);
 		
 		comboBox = new JComboBox();
 		panel_step3.add(comboBox);
 		
-		btnCheckout = new GitButton(GitButton.TXT_CHECKOUT,4, exe);
+		btnCheckout = new GitButton(GitButton.TXT_CHECKOUT,3, exe);
 		panel_step3.add(btnCheckout);
 		panel_step4 = new StepPanel(4,"Pull Again");
 		panel_top_box.add(panel_step4);
 		
-		btnPull = new GitButton(GitButton.TXT_PULL,5, exe);
+		btnPull = new GitButton(GitButton.TXT_PULL,4, exe);
 		panel_step4.add(btnPull);
 		panel_step5 = new StepPanel(5,"Run");
 		panel_top_box.add(panel_step5);
 		
-		btnRunTheServer = new GitButton(GitButton.RUN_THE_SERVER,6,exe);
+		btnRunTheServer = new GitButton(GitButton.TXT_RUN_THE_SERVER,5,exe);
 		panel_step5.add(btnRunTheServer);
 		
-		btnStop = new GitButton(GitButton.STOP, 7,exe);
+		btnStop = new GitButton(GitButton.TXT_STOP, 6,exe);
 		panel_step5.add(btnStop);
 		panel_step6 = new StepPanel(6,"Stage Changes");
 		panel_top_box.add(panel_step6);
 		
-		btnStageAllChanges = new GitButton(GitButton.STAGE_ALL_CHANGES,8,exe);
+		btnStageAllChanges = new GitButton(GitButton.TXT_STAGE_ALL_CHANGES,7,exe);
 		panel_step6.add(btnStageAllChanges);
-		panel_step7 = new StepPanel(7,GitButton.COMMIT_CHANGES);
+		panel_step7 = new StepPanel(7,GitButton.TXT_COMMIT_CHANGES);
 		panel_top_box.add(panel_step7);
 		
 		textField = new JTextField();
 		panel_step7.add(textField);
 		textField.setColumns(10);
 		
-		btnCommitChanges = new GitButton(GitButton.COMMIT_CHANGES,9,exe);
+		btnCommitChanges = new GitButton(GitButton.TXT_COMMIT_CHANGES,8,exe);
 		panel_step7.add(btnCommitChanges);
-		panel_step8 = new StepPanel(8,GitButton.PUSH);
+		panel_step8 = new StepPanel(8,GitButton.TXT_PUSH);
 		panel_top_box.add(panel_step8);
 		
 		lblUn = new JLabel("UN:");
 		panel_step8.add(lblUn);
 		
-		textField_1 = new JTextField();
-		panel_step8.add(textField_1);
-		textField_1.setColumns(10);
+		textField_username = new JTextField();
+		panel_step8.add(textField_username);
+		textField_username.setColumns(6);
 		
 		lblPass = new JLabel("Pass:");
 		panel_step8.add(lblPass);
 		
 		passwordField = new JPasswordField();
-		passwordField.setColumns(10);
+		passwordField.setColumns(6);
 		panel_step8.add(passwordField);
 		
-		btnPush = new GitButton(GitButton.PUSH,10,exe);
+		chckbxSavepass = new JCheckBox("SavePass?");
+		panel_step8.add(chckbxSavepass);
+		
+		btnPush = new GitButton(GitButton.TXT_PUSH,10,exe);
 		panel_step8.add(btnPush);
 		
 		JPanel panel_bot = new JPanel();
@@ -162,6 +175,7 @@ public class GitFrame extends JFrame {
 		
 		
 		textArea = new KJTextArea();
+		textArea.setEditable(false);
 		panel.add(textArea);
 		textArea.setBackground(Color.DARK_GRAY);
 		textArea.setForeground(Color.WHITE);
@@ -183,6 +197,12 @@ public class GitFrame extends JFrame {
 
 	public String getComboChoice() {
 		return comboBox.getSelectedItem().toString();
+	}
+
+	
+
+	public PropertyManager getProperties() {
+		return properties;
 	}
 
 }
