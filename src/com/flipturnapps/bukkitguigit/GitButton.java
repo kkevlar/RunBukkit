@@ -2,6 +2,7 @@ package com.flipturnapps.bukkitguigit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -91,14 +92,21 @@ public static final String TXT_GET_CHOICES = "Branches";
 		{
 			String username = this.executor.getUsernameText();
 			String password = this.executor.getPasswordText();
+			String remote = this.executor.getRemoteLocaitonText();
 			boolean savePass = this.executor.getShouldSavePassword();
 			
 			this.executor.getProperties().setProperty("username",username);
+			this.executor.getProperties().setProperty("remote", remote);
 			this.executor.getProperties().setProperty("save-pass?",savePass+"");
 			if(savePass)
 				this.executor.getProperties().setProperty("password",password);
-			
-			executor.execute("git push https://"+username+":"+password+"@"+this.executor.getGitFrame().get);
+			try {
+				this.executor.getProperties().write();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			executor.execute("git push https://"+username+":"+password+"@"+remote);
 			staticId = stageId+1;
 		}
 		

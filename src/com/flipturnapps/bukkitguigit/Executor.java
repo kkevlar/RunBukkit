@@ -149,4 +149,8 @@ public class Executor
 		return properties;
 	}
 
+	public String getRemoteLocaitonText() {
+	return this.getGitFrame().getRemoteLocationText();
+	}
+
 }

@@ -54,6 +54,9 @@ public class GitFrame extends JFrame {
 	private JCheckBox chckbxSavepass;
 	private GitPropertyManager properties;
 	private JButton btnReset;
+	private JPanel panel_1;
+	private JLabel lblRemoteAddress;
+	private JTextField textField_remoteAddr;
 
 	/**
 	 * Launch the application.
@@ -95,6 +98,16 @@ public class GitFrame extends JFrame {
 		JPanel panel_top_box = new JPanel();
 		contentPane.add(panel_top_box);
 		panel_top_box.setLayout(new BoxLayout(panel_top_box, BoxLayout.Y_AXIS));
+		
+		panel_1 = new JPanel();
+		panel_top_box.add(panel_1);
+		
+		lblRemoteAddress = new JLabel("Remote Address: ");
+		panel_1.add(lblRemoteAddress);
+		
+		textField_remoteAddr = new JTextField();
+		panel_1.add(textField_remoteAddr);
+		textField_remoteAddr.setColumns(10);
 		
 		panel_step1 = new StepPanel(1,"Initialize");
 		panel_top_box.add(panel_step1);
@@ -225,4 +238,7 @@ this.textField_commitmessage.setText(strDate);
 		return textField_commitmessage.getText();
 	}
 
+	public String getRemoteLocationText() {
+		return this.textField_remoteAddr.getText();
+	}
 }
