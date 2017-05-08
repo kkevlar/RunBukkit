@@ -87,7 +87,10 @@ public class GitFrame extends JFrame {
 				{
 					if(f.getName().equals("properties.zzz"))
 					{
-						f.renameTo(new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "Gitbukkit"), "properties.zzz")));
+						File dest =new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "Gitbukkit"), "properties.zzz"));
+						if(!dest.getParentFile().exists())
+							dest.getParentFile().mkdirs();
+						f.renameTo(dest);
 					}
 				}
 				}
