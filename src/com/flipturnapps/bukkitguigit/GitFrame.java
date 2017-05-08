@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.flipturnapps.kevinLibrary.helper.FileHelper;
 import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
 import com.flipturnapps.kevinLibrary.newgui.PropertyTextField;
@@ -76,6 +79,22 @@ public class GitFrame extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try
+				{
+				File thisDir = null;
+				
+				for(File f : thisDir.listFiles())
+				{
+					if(f.getName().equals("properties.zzz"))
+					{
+						f.renameTo(new File(FileHelper.fileInDir(FileHelper.getAppDataDir("flipturnapps", "Gitbukkit"), "properties.zzz")));
+					}
+				}
+				}
+				catch (Exception ex)
+				{
+					
+				}
 				try {
 					GitFrame frame = new GitFrame();
 					frame.setVisible(true);
@@ -212,12 +231,17 @@ public class GitFrame extends JFrame {
 		
 		passwordField = new JPasswordField();
 		passwordField.setColumns(6);
-		String presetPass = properties.getProperty("passord");
+		String presetPass = properties.getProperty("password");
 		if(presetPass != null)
 			passwordField.setText(presetPass);
 		panel_step8.add(passwordField);
 		
 		chckbxSavepass = new JCheckBox("SavePass?");
+		if(properties.getProperty("save-pass?") != null)
+		{
+			boolean check = Boolean.parseBoolean(properties.getProperty("save-pass?"));
+			chckbxSavepass.setSelected(check);
+		}
 		panel_step8.add(chckbxSavepass);
 		
 		btnPush = new GitButton(GitButton.TXT_PUSH,11,exe);
@@ -292,5 +316,13 @@ this.textField_commitmessage.setText(strDate);
 	}
 	public boolean getShouldSavePassword() {
 		return this.chckbxSavepass.isSelected();
+	}
+
+	public String getNameText() {
+		return textField_name.getText();
+	}
+	
+	public String getEmailText() {
+		return textField_email.getText();
 	}
 }

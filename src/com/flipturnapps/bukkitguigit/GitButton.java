@@ -79,6 +79,18 @@ public static final String TXT_GET_CHOICES = "Branches";
 			executor.getExecutorInput().println("stop");
 			staticId = stageId+1;
 		}
+		if(this.getText() == this.TXT_SET_NAME)
+		{
+			String name = this.executor.getGitFrame().getNameText();
+			executor.execute("git conifg --global user.name \"" + name + "\"");
+			staticId = stageId+1;
+		}
+		if(this.getText() == this.TXT_SET_EMAIL)
+		{
+			String name = this.executor.getGitFrame().getEmailText();
+			executor.execute("git conifg --global user.email \"" + name + "\"");
+			staticId = stageId+1;
+		}
 		if(this.getText() == this.TXT_STAGE_ALL_CHANGES)
 		{
 			executor.execute("git add -A");
@@ -107,7 +119,7 @@ public static final String TXT_GET_CHOICES = "Branches";
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			executor.execute("git push https://"+username+":"+password+"@"+remote);
+			executor.execute("git push https://" + username + ":" + password + "@" + remote+" --all");
 			staticId = stageId+1;
 		}
 		
