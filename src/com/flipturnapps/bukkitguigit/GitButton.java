@@ -22,8 +22,10 @@ public static final String TXT_GET_CHOICES = "Branches";
 	static final String TXT_PUSH = "Push";
 	public static final String TXT_STOP = "Stop";
 	public static final String TXT_RESET = "Reset";
+	public static final String TXT_SET_NAME = "Set Name";
 	private static ArrayList<GitButton> list;
 	private static int staticId;
+	public static String TXT_SET_EMAIL = "Set Email";
 
 	public GitButton(String string, int stageId, Executor exe) 
 	{
@@ -90,12 +92,11 @@ public static final String TXT_GET_CHOICES = "Branches";
 		}
 		if(this.getText() == this.TXT_PUSH)
 		{
-			String username = this.executor.getUsernameText();
-			String password = this.executor.getPasswordText();
-			String remote = this.executor.getRemoteLocaitonText();
-			boolean savePass = this.executor.getShouldSavePassword();
+			String username = this.executor.getGitFrame().getUsernameText();
+			String password = this.executor.getGitFrame().getPasswordText();
+			String remote = this.executor.getGitFrame().getRemoteText();
+			boolean savePass = this.executor.getGitFrame().getShouldSavePassword();
 			
-			this.executor.getProperties().setProperty("username",username);
 			this.executor.getProperties().setProperty("remote", remote);
 			this.executor.getProperties().setProperty("save-pass?",savePass+"");
 			if(savePass)

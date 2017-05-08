@@ -51,7 +51,7 @@ public class Executor
 	public void execute(String command, boolean b)
 	{
 		terminate();
-		this.getGitFrame().getTextArea().println("$ " + command);
+		this.getGitFrame().getTextArea().println("$ " + command);		
 		Runtime runtime = Runtime.getRuntime();		
 		Process process;
 		try {
@@ -99,30 +99,38 @@ public class Executor
 		
 	}
 
-	public boolean findServerDir(GitButton gitButton) {
+	public boolean findServerDir(GitButton gitButton) 
+	{
 		String lastLocation = getLastBukkitLocation();
-				
-		File file = new BukkitFinder().informedWalk(lastLocation);
-		if (file != null)
+			
+		RepoFinder finder = new RepoFinder(this.getGitFrame().getRemoteLocationText());
+		try {
+			this.getProperties().write();
+		} catch (IOException e) {
+			
+		}
+		
+		finder.walk(lastLocation);
+		
+		if (finder.isHasWalked() == true && finder.getRepoFilepath() != null)
 		{
-			setDir(file);
+			setDir(new File(finder.getRepoFilepath()));
 			return true;
 		}
 		
-		else
-		{
-			file = new BukkitFinder().walk();
-			if (file != null)
+		finder.setHasWalked(false);
+		finder.setRepoFilepath(null);
+		finder.walk();
+			if (finder.isHasWalked() == true && finder.getRepoFilepath() != null)
 			{
-				setDir(file);
+				setDir(new File(finder.getRepoFilepath()));
 				return true;
 			}
-			
 			else
 			{
 				return false;
 			}
-		}
+		
 	}
 
 	public FlushWriter getExecutorInput() 
@@ -130,27 +138,12 @@ public class Executor
 		return execInput;
 	}
 
-	public String getUsernameText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getPasswordText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean getShouldSavePassword() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	public PropertyManager getProperties() {
 		return properties;
 	}
 
-	public String getRemoteLocaitonText() {
-	return this.getGitFrame().getRemoteLocationText();
-	}
+	
 
 }

@@ -2,8 +2,10 @@ package com.flipturnapps.bukkitguigit;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
+import com.flipturnapps.kevinLibrary.newgui.PropertyTextField;
 
 
 public class GitFrame extends JFrame {
@@ -45,7 +48,7 @@ public class GitFrame extends JFrame {
 	private GitButton btnStageAllChanges;
 	private GitButton btnCommitChanges;
 	private JTextField textField_commitmessage;
-	private JTextField textField_username;
+	private PropertyTextField textField_username;
 	private JPasswordField passwordField;
 	private GitButton btnPush;
 	private JLabel lblUn;
@@ -56,7 +59,16 @@ public class GitFrame extends JFrame {
 	private JButton btnReset;
 	private JPanel panel_1;
 	private JLabel lblRemoteAddress;
-	private JTextField textField_remoteAddr;
+	private PropertyTextField textField_remoteAddr;
+	private JPanel panel_2;
+	private JLabel label;
+	private PropertyTextField propertyTextField;
+	private JLabel lblEmail;
+	private JLabel lblName;
+	private PropertyTextField textField_name;
+	private PropertyTextField textField_email;
+	private GitButton btnSetName;
+	private GitButton btnSetemail;
 
 	/**
 	 * Launch the application.
@@ -105,9 +117,26 @@ public class GitFrame extends JFrame {
 		lblRemoteAddress = new JLabel("Remote Address: ");
 		panel_1.add(lblRemoteAddress);
 		
-		textField_remoteAddr = new JTextField();
+		textField_remoteAddr = new PropertyTextField(properties, GitPropertyManager.PROPKEY_REMOTE);
 		panel_1.add(textField_remoteAddr);
-		textField_remoteAddr.setColumns(10);
+		textField_remoteAddr.setColumns(30);
+		
+		panel_2 = new JPanel();
+		panel_top_box.add(panel_2);
+		
+		lblName = new JLabel("Name: ");
+		panel_2.add(lblName);
+		
+		textField_name = new PropertyTextField(properties, GitPropertyManager.PROPKEY_NAME);
+		panel_2.add(textField_name);
+		textField_name.setColumns(15);
+		
+		lblEmail = new JLabel("Email: ");
+		panel_2.add(lblEmail);
+		
+		textField_email = new PropertyTextField(properties, GitPropertyManager.PROPKEY_EMAIL);
+		panel_2.add(textField_email);
+		textField_email.setColumns(15);
 		
 		panel_step1 = new StepPanel(1,"Initialize");
 		panel_top_box.add(panel_step1);
@@ -150,8 +179,15 @@ public class GitFrame extends JFrame {
 		panel_step6 = new StepPanel(6,"Stage Changes");
 		panel_top_box.add(panel_step6);
 		
-		btnStageAllChanges = new GitButton(GitButton.TXT_STAGE_ALL_CHANGES,7,exe);
+		btnSetName = new GitButton(GitButton.TXT_SET_NAME,7,exe);
+		panel_step6.add(btnSetName);
+		
+		btnSetemail = new GitButton(GitButton.TXT_SET_EMAIL,8,exe);
+		panel_step6.add(btnSetemail);
+		
+		btnStageAllChanges = new GitButton(GitButton.TXT_STAGE_ALL_CHANGES,9,exe);
 		panel_step6.add(btnStageAllChanges);
+		
 		panel_step7 = new StepPanel(7,GitButton.TXT_COMMIT_CHANGES);
 		panel_top_box.add(panel_step7);
 		
@@ -159,7 +195,7 @@ public class GitFrame extends JFrame {
 		panel_step7.add(textField_commitmessage);
 		textField_commitmessage.setColumns(20);
 		
-		btnCommitChanges = new GitButton(GitButton.TXT_COMMIT_CHANGES,8,exe);
+		btnCommitChanges = new GitButton(GitButton.TXT_COMMIT_CHANGES,10,exe);
 		panel_step7.add(btnCommitChanges);
 		panel_step8 = new StepPanel(8,GitButton.TXT_PUSH);
 		panel_top_box.add(panel_step8);
@@ -167,7 +203,7 @@ public class GitFrame extends JFrame {
 		lblUn = new JLabel("UN:");
 		panel_step8.add(lblUn);
 		
-		textField_username = new JTextField();
+		textField_username = new PropertyTextField(properties,GitPropertyManager.PROPKEY_USERNAME);
 		panel_step8.add(textField_username);
 		textField_username.setColumns(6);
 		
@@ -176,12 +212,15 @@ public class GitFrame extends JFrame {
 		
 		passwordField = new JPasswordField();
 		passwordField.setColumns(6);
+		String presetPass = properties.getProperty("passord");
+		if(presetPass != null)
+			passwordField.setText(presetPass);
 		panel_step8.add(passwordField);
 		
 		chckbxSavepass = new JCheckBox("SavePass?");
 		panel_step8.add(chckbxSavepass);
 		
-		btnPush = new GitButton(GitButton.TXT_PUSH,10,exe);
+		btnPush = new GitButton(GitButton.TXT_PUSH,11,exe);
 		panel_step8.add(btnPush);
 		
 		JPanel panel_bot = new JPanel();
@@ -240,5 +279,18 @@ this.textField_commitmessage.setText(strDate);
 
 	public String getRemoteLocationText() {
 		return this.textField_remoteAddr.getText();
+	}
+
+	public String getUsernameText() {
+		return textField_username.getText();
+	}
+	public String getPasswordText() {
+		return this.passwordField.getText();
+	}
+	public String getRemoteText() {
+		return textField_remoteAddr.getText();
+	}
+	public boolean getShouldSavePassword() {
+		return this.chckbxSavepass.isSelected();
 	}
 }

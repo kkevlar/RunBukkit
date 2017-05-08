@@ -9,6 +9,10 @@ public class GitPropertyManager extends PropertyManager
 {
 
 	public static final String PROPKEY_CBUKKIT_PATH = "cbukkit-path";
+	public static final String PROPKEY_REMOTE = "remote";
+	public static final String PROPKEY_USERNAME = "username";
+	public static final String PROPKEY_NAME = "real-name";
+	public static final String PROPKEY_EMAIL = "git-email";
 
 	@Override
 	public File getStorageDirectory() 
