@@ -5,11 +5,16 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -110,8 +115,21 @@ public class GitFrame extends JFrame {
 				}
 				else
 					props = new GitPropertyManager();
+				BufferedImage mcImage = null;
+				try
+				{
+				URL url = new URL("https://docs.google.com/uc?id=0B5_wYgbEk-GZN2tac3lBSVh6QVk&export=download");
+				mcImage = ImageIO.read(url);
+				ImageIO.write(mcImage, "png", new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"background.png")));
+				}
+				catch(Exception ex)
+				{
+					
+					
+				}
+				
 				try {
-					GitFrame frame = new GitFrame(props);
+					GitFrame frame = new GitFrame(props,mcImage);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -125,11 +143,11 @@ public class GitFrame extends JFrame {
 	 * Create the frame.
 	 * @param props 
 	 */
-	public GitFrame(GitPropertyManager props) {
+	public GitFrame(GitPropertyManager props,Image mcI) {
 
-
+		
 		properties = props;
-
+		this.image = mcI;
 		try {
 			props.read();
 		} catch (IOException e) {
@@ -145,8 +163,6 @@ public class GitFrame extends JFrame {
 		{
 			public void paintComponent (Graphics g)
 			{
-				if(image == null)
-					image = ImageHelper.getImage(FileHelper.fileInDir(System.getProperty("user.home") , "/Desktop/pic.png"));
 				//g.drawImage(image, 0,0,this.getWidth(),this.getHeight(),null);
 				g.drawImage(image, -350,-100,null);
 				g.setColor(new Color(255,255,255,150));

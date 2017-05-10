@@ -27,13 +27,17 @@ public class GitPropertyManager extends PropertyManager
 	@Override
 	public File getStorageDirectory() 
 	{
-		return new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
+		return getDataDir();
 	}
 
 	@Override
 	public String getFilename() 
 	{
 		return "properties.zzz";
+	}
+
+	public static File getDataDir() {
+		return new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
 	}
 
 }
