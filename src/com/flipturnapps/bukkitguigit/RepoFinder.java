@@ -11,6 +11,7 @@ public class RepoFinder
 	private boolean hasWalked = false;
 	private String repoFilepath = null;
 	private String remote;
+	private String propsFilepath = null;
 
 	public RepoFinder(String remote)
 	{
@@ -19,12 +20,12 @@ public class RepoFinder
 	
     public void walk( String path ) 
     {
-    	if(getRepoFilepath() != null || isHasWalked() == true || path == null)
+    	if((getRepoFilepath() != null && propsFilepath != null) || isHasWalked() == true || path == null)
     		return;
         File root = new File( path );
         File[] list = root.listFiles();
 
-        if (getRepoFilepath() != null || list == null) return;
+        if ((getRepoFilepath() != null && propsFilepath != null) || list == null) return;
 
         for ( File f : list ) {
             if ( f.isDirectory() ) {
@@ -46,8 +47,9 @@ public class RepoFinder
             		   {
             			   File dir = new File(FileHelper.fileInDir(root.getParentFile(), "yold-bukkit"));
             			   setRepoFilepath(dir.getAbsolutePath());
+            			  if(propsFilepath != null)            					  
             			   setHasWalked(true);
-            			   break;
+            			  // break;
             		   }
             	   }
             	   reader.close();
@@ -56,6 +58,12 @@ public class RepoFinder
             	   {
             		   
             	   }
+               }
+               if(f.getName().equals("properties.zzz"))
+               {
+            	   this.propsFilepath = f.getAbsolutePath();
+            	   if(this.getRepoFilepath() != null)            					  
+        			   setHasWalked(true);
                }
             }
         }
