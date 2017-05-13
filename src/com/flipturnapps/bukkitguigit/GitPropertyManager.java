@@ -37,7 +37,9 @@ public class GitPropertyManager extends PropertyManager
 	}
 
 	public static File getDataDir() {
-		return new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
+		File file = new File(FileHelper.getAppDataDir("flipturnapps", "GitBukkit"));
+		file.mkdirs();
+		return file;
 	}
 
 }
