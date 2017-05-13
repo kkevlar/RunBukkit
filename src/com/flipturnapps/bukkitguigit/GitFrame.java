@@ -94,7 +94,7 @@ public class GitFrame extends JFrame {
 				{
 					PropWalker walker = new PropWalker();
 					walker.walk();
-					
+
 					if(walker.getPathFound() != null)
 					{
 						try {
@@ -115,26 +115,43 @@ public class GitFrame extends JFrame {
 				}
 				else
 					props = new GitPropertyManager();
-				BufferedImage mcImage = null;
-				try
-				{
-				URL url = new URL("https://docs.google.com/uc?id=0B5_wYgbEk-GZN2tac3lBSVh6QVk&export=download");
-				mcImage = ImageIO.read(url);
-				ImageIO.write(mcImage, "png", new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"background.png")));
-				}
-				catch(Exception ex)
-				{
-					
-					
-				}
-				
+
+
+				BufferedImage bgImage = getBgImage();
+
 				try {
-					GitFrame frame = new GitFrame(props,mcImage);
+					GitFrame frame = new GitFrame(props,bgImage);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
+			}
+
+			private BufferedImage getBgImage() {
+				BufferedImage bgImage = null;
+				File imageFile = new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"background.png"));
+				if(imageFile.exists())
+					try {
+						bgImage = ImageIO.read(imageFile);
+					} catch (IOException e) {
+
+					}
+				if(bgImage == null)
+				{
+					try
+					{
+						URL url = new URL("https://docs.google.com/uc?id=0B5_wYgbEk-GZN2tac3lBSVh6QVk&export=download");
+						bgImage = ImageIO.read(url);
+						ImageIO.write(bgImage, "png", imageFile);
+					}
+					catch(Exception ex)
+					{
+
+
+					}
+				}
+				return bgImage;
 			}
 		});
 	}
@@ -145,7 +162,7 @@ public class GitFrame extends JFrame {
 	 */
 	public GitFrame(GitPropertyManager props,Image mcI) {
 
-		
+
 		properties = props;
 		this.image = mcI;
 		try {
