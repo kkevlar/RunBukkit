@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.flipturnapps.kevinLibrary.helper.FileHelper;
-import com.flipturnapps.kevinLibrary.helper.ImageHelper;
 import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
 import com.flipturnapps.kevinLibrary.newgui.PropertyTextField;
@@ -117,10 +115,24 @@ public class GitFrame extends JFrame {
 					props = new GitPropertyManager();
 
 
-				BufferedImage bgImage = getBgImage();
+				BufferedImage bgImage = null;
+				try {
+					bgImage = getBgImage();
+				} catch (MalformedURLException e1) {
+					
+				}
+				
+				BufferedImage icon = null;
+				try {
+					icon = getIconImage();
+				} catch (MalformedURLException e1) {
+					
+				}
+				
 
 				try {
 					GitFrame frame = new GitFrame(props,bgImage);
+					frame.setIconImage(icon);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -128,9 +140,9 @@ public class GitFrame extends JFrame {
 
 			}
 
-			private BufferedImage getBgImage() {
+			private BufferedImage getImage(URL url, File imageFile) {
 				BufferedImage bgImage = null;
-				File imageFile = new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"background.png"));
+				
 				if(imageFile.exists())
 					try {
 						bgImage = ImageIO.read(imageFile);
@@ -141,7 +153,7 @@ public class GitFrame extends JFrame {
 				{
 					try
 					{
-						URL url = new URL("https://docs.google.com/uc?id=0B5_wYgbEk-GZN2tac3lBSVh6QVk&export=download");
+						
 						bgImage = ImageIO.read(url);
 						ImageIO.write(bgImage, "png", imageFile);
 					}
@@ -152,6 +164,18 @@ public class GitFrame extends JFrame {
 					}
 				}
 				return bgImage;
+			}
+			private BufferedImage getBgImage() throws MalformedURLException {
+				URL url = new URL("https://docs.google.com/uc?id=0B5_wYgbEk-GZN2tac3lBSVh6QVk&export=download");
+				File imageFile = new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"background.png"));
+				
+				return getImage(url,imageFile);
+			}
+			private BufferedImage getIconImage() throws MalformedURLException {
+				
+				File imageFile = new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(),"icon.png"));
+				URL freedGnomeUrl = new URL("https://drive.google.com/uc?export=download&id=0B5_wYgbEk-GZZ0tzRzVQRWdoMDQ");
+				return getImage(freedGnomeUrl,imageFile);
 			}
 		});
 	}
