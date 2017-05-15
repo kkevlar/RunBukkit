@@ -15,6 +15,7 @@ public class Downloader {
 	private URL zip2;
 	private URL zip3;
 	private URL list;
+	public static final String DIR_ANIMATION = FileHelper.fileInDir(GitPropertyManager.getDataDir(), "animation" );
 	public Downloader()
 	{
 		try

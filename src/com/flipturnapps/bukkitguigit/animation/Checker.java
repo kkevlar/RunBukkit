@@ -6,16 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.flipturnapps.bukkitguigit.GitPropertyManager;
-import com.flipturnapps.kevinLibrary.helper.FileHelper;
-
 public class Checker
 {
 	
 	public void deleteAnimationDir()
 	{
 		try {
-			delete(new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(), "animation" )));
+			delete(new File(Downloader.DIR_ANIMATION));
 		} catch (IOException e) {
 			
 		}
@@ -42,7 +39,7 @@ public class Checker
 		} catch (FileNotFoundException e1) {
 
 		}
-		File dir =new File(FileHelper.fileInDir(GitPropertyManager.getDataDir(), "animation" ));
+		File dir =new File(Downloader.DIR_ANIMATION);
 		if(!dir.exists())
 			return false;
 
