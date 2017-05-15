@@ -3,7 +3,6 @@ package com.flipturnapps.bukkitguigit;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +24,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.flipturnapps.bukkitguigit.animation.AnimationManager;
+import com.flipturnapps.bukkitguigit.animation.AnimationPanel;
 import com.flipturnapps.kevinLibrary.helper.FileHelper;
 import com.flipturnapps.kevinLibrary.helper.PropertyManager;
 import com.flipturnapps.kevinLibrary.newgui.KJTextArea;
@@ -33,7 +34,7 @@ import com.flipturnapps.kevinLibrary.newgui.PropertyTextField;
 
 public class GitFrame extends JFrame {
 
-	private JPanel contentPane;
+	private AnimationPanel contentPane;
 	private StepPanel panel_step1;
 	private StepPanel panel_step2;
 	private StepPanel panel_step3;
@@ -132,11 +133,14 @@ public class GitFrame extends JFrame {
 
 				try {
 					GitFrame frame = new GitFrame(props,bgImage);
+					AnimationManager manager = new AnimationManager(frame);
 					frame.setIconImage(icon);
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 
 			}
 
@@ -200,17 +204,8 @@ public class GitFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 
-		contentPane = new JPanel()
-		{
-			public void paintComponent (Graphics g)
-			{
-				//g.drawImage(image, 0,0,this.getWidth(),this.getHeight(),null);
-				g.drawImage(image, -350,-100,null);
-				g.setColor(new Color(255,255,255,150));
-				g.fillRect(0, 0, this.getWidth(), this.getHeight());
-				super.paintComponent(g);
-			}
-		};
+		contentPane = new AnimationPanel();
+		
 
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -419,5 +414,10 @@ public class GitFrame extends JFrame {
 
 	public String getEmailText() {
 		return textField_email.getText();
+	}
+
+	public AnimationPanel getAmPanel()
+	{
+		return contentPane;
 	}
 }

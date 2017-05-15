@@ -2,15 +2,21 @@ package com.flipturnapps.bukkitguigit.animation;
 
 import java.io.File;
 
+import com.flipturnapps.bukkitguigit.GitFrame;
 import com.flipturnapps.bukkitguigit.GitPropertyManager;
 import com.flipturnapps.kevinLibrary.helper.FileHelper;
 import com.flipturnapps.kevinLibrary.helper.FlushWriter;
 
 public class AnimationManager implements Runnable
 {
-	public AnimationManager()
+	private GitFrame frame;
+
+
+
+	public AnimationManager(GitFrame f)
 	{
 		new Thread(this).start();
+		this.frame = f;
 	}
 
 	
@@ -27,9 +33,9 @@ public class AnimationManager implements Runnable
 		downloader.down3();
 		downloader.downList();
 		
-		 String zp1 = downloader.getZipSaveLocation(1).getAbsolutePath();
-		 String zp2 = downloader.getZipSaveLocation(2).getAbsolutePath();
-		 String zp3 = downloader.getZipSaveLocation(3).getAbsolutePath();
+		 String zp1 = Downloader.getZipSaveLocation(1).getAbsolutePath();
+		 String zp2 = Downloader.getZipSaveLocation(2).getAbsolutePath();
+		 String zp3 = Downloader.getZipSaveLocation(3).getAbsolutePath();
 	     String tempPath = FileHelper.fileInDir(GitPropertyManager.getDataDir(), "animation" );
 	     File tempFile = new File(tempPath);
 	     tempFile.mkdirs();
@@ -47,6 +53,20 @@ public class AnimationManager implements Runnable
 		}
 		else
 			System.out.println("passed the folder check");
+		
+		AnimationPanel amPanel = frame.getAmPanel();
+		amPanel.fillBuffer();
+		
+		while(true)
+		{
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				
+			}
+			
+			amPanel.repaint();
+		}
 	}
 
 
